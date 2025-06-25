@@ -19,31 +19,29 @@ class Hours {
     private String endHour;
 
     public Hours(String startHour, String endHour){
+        if(checkHour(startHour)) System.out.println("Start is valid");
+        else System.out.println("Start time is invalid");
+        if(checkHour(endHour)) System.out.println("End is valid");
+        else System.out.println("End time is invalid");
 
+        if(checkHour(startHour) && checkHour(endHour))System.out.println("Hours are valid");
+        else System.out.println("Hours are invalid");
     }
 
     /*
     Sorts through String to check that given hour is a string that matches
-    the 24 hour clock time
+    the 24-hour clock time
      */
-    private boolean checkHour(String hour){
-        char[] hourArray = hour.toCharArray();
-        if(hourArray.length == 5
-                && hourArray[0] == '1' || hourArray[0] == '0' || hourArray[0] == '2'
-                && Character.isDigit(hourArray[1])
-                && hourArray[2] == ':'
-                && Character.isDigit(hourArray[3])){
-                    int charThree = (int)hourArray[3];
-                        if(charThree >= 0 && charThree <= 5
-                        && Character.isDigit(hourArray[4])){
-                            int charFour = (int)hourArray[4];
-                            if(charFour == 0 || charFour == 5){
-                                return true;
-                                }
-                        }
-                }
-
-        return false;
+    public boolean checkHour(String hour){
+        if (hour == null || hour.length() != 5 || hour.charAt(2) != ':') return false;
+        String[] parts = hour.split(":");
+        try {
+            int h = Integer.parseInt(parts[0]);
+            int m = Integer.parseInt(parts[1]);
+            return h >= 0 && h < 24 && (m >= 0 && m < 60);
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     @Override
