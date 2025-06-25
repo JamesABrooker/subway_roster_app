@@ -1,10 +1,14 @@
 import java.util.List;
+import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Start Time:");
+        String h1 = sc.nextLine();
+        System.out.println("End Time:");
+        String h2 = sc.nextLine();
+        Hours h = new Hours(h1, h2);
     }
 }
