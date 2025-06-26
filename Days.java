@@ -1,9 +1,17 @@
 import java.util.Collections;
 import java.lang.Character;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.*;
 
-record Day(String day, Hours hours) {
+class Day {
+    public String day;
+    public Hours hours;
+
+    public Day(String day, Hours hours) {
+        this.day = day;
+        this.hours = hours;
+    }
 
     public void printDay(){
         System.out.println(day+": "+hours.toString());
@@ -11,6 +19,14 @@ record Day(String day, Hours hours) {
 
     public Day returnDay(){
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Day day1 = (Day) o;
+        return Objects.equals(day, day1.day) && Objects.equals(hours, day1.hours);
     }
 }
 
@@ -24,8 +40,30 @@ class Hours {
         if(checkHour(endHour)) System.out.println("End is valid");
         else System.out.println("End time is invalid");
 
-        if(checkHour(startHour) && checkHour(endHour))System.out.println("Hours are valid");
-        else System.out.println("Hours are invalid");
+        if(checkHour(startHour) && checkHour(endHour)){
+            this.startHour = startHour;
+            this.endHour = endHour;
+        } else {throw new IllegalArgumentException();}
+    }
+
+    public String getStartHour() {return startHour;}
+    public String getEndHour() {return endHour;}
+
+    public int getStartHourAsInt() {
+        String[] parts = startHour.split(":");
+        return Integer.parseInt(parts[0]);
+    }
+    public int getEndHourAsInt() {
+        String[] parts = endHour.split(":");
+        return Integer.parseInt(parts[0]);
+    }
+    public int getStartMinAsInt() {
+        String[] parts = startHour.split(":");
+        return Integer.parseInt(parts[1]);
+    }
+    public int getEndMinAsInt() {
+        String[] parts = endHour.split(":");
+        return Integer.parseInt(parts[1]);
     }
 
     /*
@@ -46,6 +84,14 @@ class Hours {
 
     @Override
     public String toString(){
-        return "";
+        return startHour+"-"+endHour;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hours other = (Hours)o;
+        return this.startHour.equals(other.startHour) && this.endHour.equals(other.endHour);
     }
 }
