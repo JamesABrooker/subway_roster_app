@@ -34,6 +34,11 @@ class Hours {
     private String startHour;
     private String endHour;
 
+    private int startHourInt;
+    private int endHourInt;
+    private int startMinuteInt;
+    private int endMinuteInt;
+
     public Hours(String startHour, String endHour){
         if(checkHour(startHour)) System.out.println("Start is valid");
         else System.out.println("Start time is invalid");
@@ -44,26 +49,29 @@ class Hours {
             this.startHour = startHour;
             this.endHour = endHour;
         } else {throw new IllegalArgumentException();}
+
+        String[] parts = startHour.split(":");
+        this.startHourInt = Integer.parseInt(parts[0]);
+        this.startMinuteInt = Integer.parseInt(parts[1]);
+
+        String[] parts2 = endHour.split(":");
+        this.endHourInt = Integer.parseInt(parts2[0]);
+        this.endMinuteInt = Integer.parseInt(parts2[1]);
     }
 
     public String getStartHour() {return startHour;}
     public String getEndHour() {return endHour;}
 
-    public int getStartHourAsInt() {
-        String[] parts = startHour.split(":");
-        return Integer.parseInt(parts[0]);
-    }
-    public int getEndHourAsInt() {
-        String[] parts = endHour.split(":");
-        return Integer.parseInt(parts[0]);
-    }
-    public int getStartMinAsInt() {
-        String[] parts = startHour.split(":");
-        return Integer.parseInt(parts[1]);
-    }
-    public int getEndMinAsInt() {
-        String[] parts = endHour.split(":");
-        return Integer.parseInt(parts[1]);
+    public int getStartHourAsInt() {return startHourInt;}
+    public int getEndHourAsInt() {return endHourInt;}
+    public int getStartMinAsInt() {return startMinuteInt;}
+    public int getEndMinAsInt() {return endMinuteInt;}
+
+    public int hoursWorked(){
+        int hoursWorked = endHourInt - startHourInt;
+        int minutesWorked = endMinuteInt - startMinuteInt;
+        minutesWorked = minutesWorked / 60;
+        return hoursWorked + minutesWorked;
     }
 
     /*
