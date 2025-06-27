@@ -1,13 +1,28 @@
 import java.util.List;
 
-record Worker(String name, String number, List<Hours> hours) {
+record Worker(String name, String number, List<Shift> shifts) {
 
     public boolean addShift(Shift shift) {
-        return false;
+        for(Shift s: shifts){
+            if(overlapShift(s,shift)){
+                System.out.println("Shift Overlaps");
+                return false;
+            }
+        }
+        shifts.add(shift);
+        return true;
     }
 
-    public boolean removeShift(Shift shift) {
-        return false;
+    public void removeShift(Shift shift) {
+        shifts.remove(shift);
+    }
+
+    public int hoursWorked(){
+        int hoursWorked = 0;
+        for(Shift s: shifts){
+            hoursWorked = hoursWorked + s.hours().hoursWorked();
+        }
+        return hoursWorked;
     }
 
     // returns true if 2 given hours overlap, false otherwise
@@ -37,14 +52,6 @@ record Worker(String name, String number, List<Hours> hours) {
         if(shift1.hours().getEndHourAsInt() == shift2.hours().getStartHourAsInt()){
             if(shift2.hours().getStartMinAsInt() < shift1.hours().getEndMinAsInt()) return true;
         }
-
-        /*
-        Checks correctly if start hours are equal, think about checking if shift overlaps
-        where start and end are in the same hour? Cases like:
-            1: 12:00 - 12:45
-            2: 12:30 - 18:30
-        Think about it and fix tomorrow
-         */
 
         return false;
     }
