@@ -1,6 +1,6 @@
-import java.util.List;
+import java.util.Set;
 
-record Worker(String name, String number, List<Shift> shifts) {
+record Worker(String name, String number, Set<Shift> shifts) {
 
     public boolean addShift(Shift shift) {
         for(Shift s: shifts){
@@ -9,8 +9,7 @@ record Worker(String name, String number, List<Shift> shifts) {
                 return false;
             }
         }
-        shifts.add(shift);
-        return true;
+        return shifts.add(shift);
     }
 
     public void removeShift(Shift shift) {
@@ -50,7 +49,7 @@ record Worker(String name, String number, List<Shift> shifts) {
             if(shift1.hours().getStartMinAsInt() < shift2.hours().getEndMinAsInt()) return true;
         }
         if(shift1.hours().getEndHourAsInt() == shift2.hours().getStartHourAsInt()){
-            if(shift2.hours().getStartMinAsInt() < shift1.hours().getEndMinAsInt()) return true;
+            return shift2.hours().getStartMinAsInt() < shift1.hours().getEndMinAsInt();
         }
 
         return false;
