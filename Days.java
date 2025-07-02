@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Character;
 import java.util.List;
@@ -9,6 +10,8 @@ class Day {
     public Hours hours;
 
     public Day(String day, Hours hours) {
+
+
         this.day = day;
         this.hours = hours;
     }
@@ -88,6 +91,44 @@ class Hours {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    /*
+
+     */
+    public List<Hours> replaceHour(List<Hours> hours){
+        List<Hours> newHours = new ArrayList<>();
+        int count = 0;
+        for(Hours h : hours){
+
+            int startReplace = h.getStartHourAsInt();
+            int endReplace = h.getEndHourAsInt();
+            int startMinReplace = h.getStartMinAsInt();
+            int endMinReplace = h.getEndMinAsInt();
+
+            if(this.endHourInt < startReplace) {
+                count++;
+                continue;
+            }
+            if(this.startHourInt == startReplace){
+                if(this.startMinuteInt > startMinReplace) newHours.add(new Hours(h.getStartHour(),getStartHour()));
+            }
+            if(this.endHourInt == endReplace){
+                if(this.endMinuteInt < endMinReplace) newHours.add(new Hours(getEndHour(),h.getEndHour()));
+            }
+
+            if(this.startHourInt == endReplace){
+                if(this.startMinuteInt < endMinReplace) newHours.add(new Hours(h.getStartHour(),getStartHour()));
+            }
+            if(this.endHourInt == startReplace){
+                if(this.endMinuteInt < startMinReplace) newHours.add(new Hours(getEndHour(),h.getEndHour()));
+            }
+
+            if(this.endHourInt < endReplace) newHours.add(new Hours(getEndHour(),h.getEndHour()));
+            if(this.startHourInt > startReplace) newHours.add(new Hours(h.getStartHour(),getStartHour()));
+        }
+        if(count == hours.size()) return hours;
+        return newHours;
     }
 
     @Override
